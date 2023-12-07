@@ -1,4 +1,5 @@
 using Neox.Repositories;
+using Neox.Repositories.SqlLite;
 using Neox.Services;
 using Serilog;
 
@@ -24,7 +25,7 @@ try
     //  Inyeccion de dependencias - Servicios de aplicacion
     builder.Services.AddTransient<IClientService, ClientService>();
     //  Inyeccion de dependencias - Repositorios (infraestructura)
-    builder.Services.AddTransient<IClientRepository, ClientSqlLiteRepository>();
+    builder.Services.AddTransient<IClientRepository, ClienteRepository>();
 
     var app = builder.Build();
 
