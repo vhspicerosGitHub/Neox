@@ -7,13 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="database\Database.sqlite" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="database\Database.sqlite">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Compile Remove="database\**" />
+    <Content Remove="database\**" />
+    <EmbeddedResource Remove="database\**" />
+    <None Remove="database\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,7 +8,7 @@ namespace Neox.Repositories.SqlLite
     public class ClienteRepository : IClientRepository
     {
         private readonly ILogger<ClienteRepository> _logger;
-        private readonly string _connectionString = "Data Source=Database\\Database.sqlite";
+        private readonly string _connectionString = "Data Source=../Database/Database.sqlite";
 
         public ClienteRepository(ILogger<ClienteRepository> logger)
         {

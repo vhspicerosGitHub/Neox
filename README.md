@@ -5,7 +5,7 @@ Prueba de desarrollo para proceso de selección de Neox, el requerimiento se enc
 En General se requiere generar una  api para administracion de clientes. 
 
 ## Base de datos
-Se encuentra en este mismo repositorio en la carpeta Neox.Web/database
+Se encuentra en este mismo repositorio en la carpeta /Database
 
 ## Como compilar el proyecto
 ```
