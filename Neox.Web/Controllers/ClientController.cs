@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Neox.Model;
 using Neox.Services;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Neox.Web.Controllers;
 
@@ -23,10 +22,23 @@ public class ClientController : ControllerBase
         return await _service.GetAll();
     }
 
+    [HttpGet("{id:int}")]
+    public async Task GetById(int id)
+    {
+        await _service.GetById(id);
+    }
+
     [HttpPost()]
     public async Task<int> Create(Client client)
     {
         return await _service.Create(client);
+    }
+
+    [HttpPatch("{id:int}")]
+    public async Task GetById(int id, Client client)
+    {
+        client.Id = id;
+        await _service.Update(client);
     }
 
 
