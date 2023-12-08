@@ -41,7 +41,7 @@ curl -X 'POST'  'https://localhost:7294/Client' -i  -H 'Content-Type: applicatio
 curl -X 'DELETE' -i 'https://localhost:7294/Client/4'
 
 - Actualiza
-curl -X 'PATCH' 'https://localhost:7294/Client/5' -i -H 'Content-Type: application/json'  -d '{"email": "sara@gmail.com", "name": "Sara aavedra"}'
+curl -X 'PATCH' 'https://localhost:7294/Client/5' -i -H 'Content-Type: application/json'  -d '{"email": "sara@gmail.com", "name": "Sara Saavedra"}'
 
 ```
 
