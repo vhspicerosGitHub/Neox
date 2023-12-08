@@ -16,18 +16,19 @@ public class ClientService : IClientService
         _repository = repository;
     }
 
-    public Task<int> Create(Client client)
+    public async Task<int> Create(Client client)
     {
-        if (_repository.GetByEmail(client.Email) != null)
-            throw new BusinessException("Ya existe un cliente con ese correo");
-
         if (string.IsNullOrWhiteSpace(client.Email))
             throw new BusinessException("El Email no puede ser vacio");
 
         if (string.IsNullOrWhiteSpace(client.Name))
             throw new BusinessException("El Nombre no puede ser vacio");
 
-        return _repository.Create(client);
+        var c = await _repository.GetByEmail(client.Email);
+        if (c != null)
+            throw new BusinessException("Ya existe un cliente con ese correo");
+
+        return await _repository.Create(client);
     }
 
     public Task Delete(Client client)
