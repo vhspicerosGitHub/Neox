@@ -118,7 +118,6 @@ namespace Neox.Tests
             Assert.That(client.Deleted, Is.EqualTo(newClient.Deleted));
             _repository.Verify(x => x.GetById(It.IsAny<int>()), Times.Once());
             _repository.VerifyNoOtherCalls();
-
         }
 
 
@@ -131,13 +130,40 @@ namespace Neox.Tests
             var ex = Assert.ThrowsAsync<BusinessException>(code: () => _service.GetById(id));
 
 
-            Assert.That((int)HttpStatusCode.NotFound, Is.EqualTo((int)ex.HttpStatusCode));
+            Assert.That((int)ex.HttpStatusCode, Is.EqualTo((int)HttpStatusCode.NotFound));
             _repository.Verify(x => x.GetById(It.IsAny<int>()), Times.Once());
             _repository.VerifyNoOtherCalls();
+        }
 
+        [Test]
+        public async Task delete_client_by_id_successful()
+        {
+            var id = 10;
+            var client = new Client() { Id = id, Name = "name", Email = "email@domain.com", Deleted = false };
+            _repository.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync(client);
+
+            await _service.Delete(client);
+
+            _repository.Verify(x => x.GetById(It.IsAny<int>()), Times.Once());
+            _repository.Verify(x => x.Delete(It.IsAny<Client>()), Times.Once());
+            _repository.VerifyNoOtherCalls();
         }
 
 
+        [Test]
+        public void delete_client_by_id_not_found_should_throw_exception()
+        {
+            var id = 10;
+            var client = new Client() { Id = id, Name = "name", Email = "email@domain.com", Deleted = false };
+            _repository.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync(null as Client);
+
+            var ex = Assert.ThrowsAsync<BusinessException>(code: () => _service.Delete(client));
+
+
+            Assert.That((int)ex.HttpStatusCode, Is.EqualTo((int)HttpStatusCode.NotFound));
+            _repository.Verify(x => x.GetById(It.IsAny<int>()), Times.Once());
+            _repository.VerifyNoOtherCalls();
+        }
 
     }
 }

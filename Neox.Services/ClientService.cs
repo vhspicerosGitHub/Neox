@@ -31,11 +31,13 @@ public class ClientService : IClientService
         return await _repository.Create(client);
     }
 
-    public Task Delete(Client client)
+    public async Task Delete(Client client)
     {
-        if (_repository.GetById(client.Id) == null)
+        var c = await _repository.GetById(client.Id);
+        if (c == null)
             throw new BusinessException("El cliente no existe", HttpStatusCode.NotFound);
-        return _repository.Delete(client);
+
+        await _repository.Delete(client);
     }
 
     public async Task<IEnumerable<Client>> GetAll()
@@ -45,11 +47,11 @@ public class ClientService : IClientService
 
     public async Task<Client> GetById(int id)
     {
-        var client = await _repository.GetById(id);
-        if (client == null)
+        var c = await _repository.GetById(id);
+        if (c == null)
             throw new BusinessException("El cliente no existe", HttpStatusCode.NotFound);
 
-        return client;
+        return c;
     }
 
     public async Task Update(Client client)
