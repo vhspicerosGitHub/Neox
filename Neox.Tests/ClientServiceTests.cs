@@ -162,8 +162,40 @@ namespace Neox.Tests
 
             Assert.That((int)ex.HttpStatusCode, Is.EqualTo((int)HttpStatusCode.NotFound));
             _repository.Verify(x => x.GetById(It.IsAny<int>()), Times.Once());
+            _repository.Verify(x => x.Delete(It.IsAny<Client>()), Times.Never());
             _repository.VerifyNoOtherCalls();
         }
 
+
+        [Test]
+        public async Task Update_client_by_id_successful()
+        {
+            var id = 10;
+            var client = new Client() { Id = id, Name = "name", Email = "email@domain.com", Deleted = false };
+            _repository.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync(client);
+
+            await _service.Update(client);
+
+            _repository.Verify(x => x.GetById(It.IsAny<int>()), Times.Once());
+            _repository.Verify(x => x.Update(It.IsAny<Client>()), Times.Once());
+            _repository.VerifyNoOtherCalls();
+        }
+
+
+        [Test]
+        public void Update_client_by_id_not_found_should_throw_exception()
+        {
+            var id = 10;
+            var client = new Client() { Id = id, Name = "name", Email = "email@domain.com", Deleted = false };
+            _repository.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync(null as Client);
+
+            var ex = Assert.ThrowsAsync<BusinessException>(code: () => _service.Update(client));
+
+
+            Assert.That((int)ex.HttpStatusCode, Is.EqualTo((int)HttpStatusCode.NotFound));
+            _repository.Verify(x => x.GetById(It.IsAny<int>()), Times.Once());
+            _repository.Verify(x => x.Update(It.IsAny<Client>()), Times.Never());
+            _repository.VerifyNoOtherCalls();
+        }
     }
 }

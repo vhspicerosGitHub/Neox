@@ -56,8 +56,10 @@ public class ClientService : IClientService
 
     public async Task Update(Client client)
     {
-        if (await _repository.GetById(client.Id) == null)
+        var c = await _repository.GetById(client.Id);
+        if (c == null)
             throw new BusinessException("El cliente no existe", HttpStatusCode.NotFound);
+
         await _repository.Update(client);
     }
 }
