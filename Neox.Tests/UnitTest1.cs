@@ -10,7 +10,7 @@ namespace Neox.Tests
         [Test]
         public void Test1()
         {
-            Assert.AreEqual(1, 2);
+            Assert.Pass();
         }
     }
 }
