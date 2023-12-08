@@ -48,7 +48,7 @@ public class ClientService : IClientService
         var client = await _repository.GetById(id);
         if (client == null)
             throw new BusinessException("El cliente no existe", HttpStatusCode.NotFound);
-        var i = Convert.ToInt32("hola");
+
         return client;
     }
 

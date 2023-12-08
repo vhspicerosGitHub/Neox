@@ -10,9 +10,9 @@ namespace Neox.Common
         {
             HttpStatusCode = HttpStatusCode.BadRequest;
         }
-        public BusinessException(string message, HttpStatusCode httpStatusCode) : base(message)
+        public BusinessException(string message, HttpStatusCode statusCode) : base(message)
         {
-            HttpStatusCode = HttpStatusCode.BadRequest;
+            HttpStatusCode = statusCode;
         }
 
         public BusinessException(string message, Exception inner, HttpStatusCode statusCode) : base(message, inner)
