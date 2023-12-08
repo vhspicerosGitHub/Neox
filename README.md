@@ -21,6 +21,8 @@ dotnet run --project  .\Neox.Web\Neox.Web.csproj
 ```
 dotnet test
 
+```
+
 ## Pruebas manuales
 
 Se puede hacer via swagger localmente (https://localhost:7294/swagger/index.html) , por postman o por consola. Los comandos para probar son:
