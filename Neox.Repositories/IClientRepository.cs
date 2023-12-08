@@ -6,9 +6,9 @@ namespace Neox.Repositories
     {
         Task<IEnumerable<Client>> GetAll();
 
-        Task<Client> GetById(int id);
+        Task<Client?> GetById(int id);
 
-        Task<Client> GetByEmail(string email);
+        Task<Client?> GetByEmail(string email);
 
         Task<int> Create(Client client);
 

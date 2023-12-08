@@ -46,7 +46,7 @@ namespace Neox.Tests
         }
 
         [Test]
-        public async Task Create_client_with_empty_name_should_throw_exception()
+        public void Create_client_with_empty_name_should_throw_exception()
         {
             var client = new Client() { Email = "email@domain.com" };
 
@@ -59,7 +59,7 @@ namespace Neox.Tests
 
 
         [Test]
-        public async Task Create_client_with_empty_email_should_throw_exception()
+        public void Create_client_with_empty_email_should_throw_exception()
         {
             var client = new Client() { Name = "name" };
             var ex = Assert.ThrowsAsync<BusinessException>(code: () => _service.Create(client));
@@ -70,7 +70,7 @@ namespace Neox.Tests
         }
 
         [Test]
-        public async Task Create_client_with_existing_email()
+        public void Create_client_with_existing_email()
         {
             var client = new Client() { Name = "name", Email = "email@domain.com" };
             _repository.Setup(x => x.GetByEmail(client.Email)).ReturnsAsync(client);
@@ -89,12 +89,12 @@ namespace Neox.Tests
         {
             int expectedId = 10;
             var client = new Client() { Name = "name", Email = "email@domain.com" };
-            _repository.Setup(x => x.GetByEmail(It.IsAny<string>())).ReturnsAsync((Client)null);
+            _repository.Setup(x => x.GetByEmail(It.IsAny<string>())).ReturnsAsync(null as Client);
             _repository.Setup(x => x.Create(It.IsAny<Client>())).ReturnsAsync(10);
 
             var id = await _service.Create(client);
 
-            Assert.AreEqual(expectedId, id);
+            Assert.That(id, Is.EqualTo(expectedId));
             _repository.Verify(x => x.GetByEmail(It.IsAny<string>()), Times.Once());
             _repository.Verify(x => x.Create(It.IsAny<Client>()), Times.Once());
             _repository.VerifyNoOtherCalls();
