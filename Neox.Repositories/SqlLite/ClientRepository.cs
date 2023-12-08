@@ -28,14 +28,13 @@ namespace Neox.Repositories.SqlLite
 
         public async Task<Client> GetByEmail(string email)
         {
-            return await new SqliteConnection(_connectionString).QueryFirstAsync<Client>(Queries.GetByEmail,
+            return await new SqliteConnection(_connectionString).QueryFirstOrDefaultAsync<Client>(Queries.GetByEmail,
                 new { email });
         }
 
         public async Task<Client> GetById(int id)
         {
-            return await new SqliteConnection(_connectionString).QueryFirstAsync<Client>(Queries.GetById,
-                new { id });
+            return await new SqliteConnection(_connectionString).QueryFirstOrDefaultAsync<Client>(Queries.GetById, new { id });
         }
 
         public async Task Delete(Client client)

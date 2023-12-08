@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Neox.Common;
 using Neox.Model;
 using Neox.Services;
 
@@ -17,34 +18,103 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet()]
-    public async Task<IEnumerable<Client>> Get()
+    [ProducesResponseType(typeof(IEnumerable<Client>), 200)]
+    public async Task<IActionResult> Get()
     {
-        return await _service.GetAll();
+        try
+        {
+            return Ok(await _service.GetAll());
+        }
+        catch (BusinessException e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode((int)e.HttpStatusCode, e.Message);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpGet("{id:int}")]
-    public async Task GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        await _service.GetById(id);
+        try
+        {
+            return Ok(await _service.GetById(id));
+        }
+        catch (BusinessException e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode((int)e.HttpStatusCode, e.Message);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpPost()]
-    public async Task<int> Create(Client client)
+    [ProducesResponseType(typeof(int), 200)]
+    public async Task<IActionResult> Create(Client client)
     {
-        return await _service.Create(client);
+        try
+        {
+            return Ok(await _service.Create(client));
+        }
+        catch (BusinessException e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode((int)e.HttpStatusCode, e.Message);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpPatch("{id:int}")]
-    public async Task GetById(int id, Client client)
+    public async Task<IActionResult> GetById(int id, Client client)
     {
-        client.Id = id;
-        await _service.Update(client);
+        try
+        {
+            client.Id = id;
+            await _service.Update(client);
+            return Ok();
+        }
+        catch (BusinessException e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode((int)e.HttpStatusCode, e.Message);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
     }
 
 
     [HttpDelete("{id:int}")]
-    public async Task Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        await _service.Delete(new Client { Id = id });
+        try
+        {
+            await _service.Delete(new Client { Id = id });
+            return Ok();
+        }
+        catch (BusinessException e)
+        {
+            _logger.LogError(e, e.Message);
+            return StatusCode((int)e.HttpStatusCode, e.Message);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
     }
 }

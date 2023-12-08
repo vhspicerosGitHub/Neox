@@ -1,5 +1,8 @@
-﻿namespace Neox.Model;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Neox.Model;
+
+[ExcludeFromCodeCoverage]
 public class Client
 {
     public int Id { get; set; }

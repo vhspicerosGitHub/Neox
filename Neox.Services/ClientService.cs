@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Neox.Common;
 using Neox.Model;
 using Neox.Repositories;
+using System.Net;
 
 namespace Neox.Services;
 
@@ -16,26 +18,43 @@ public class ClientService : IClientService
 
     public Task<int> Create(Client client)
     {
+        if (_repository.GetByEmail(client.Email) != null)
+            throw new BusinessException("Ya existe un cliente con ese correo");
+
+        if (string.IsNullOrWhiteSpace(client.Email))
+            throw new BusinessException("El Email no puede ser vacio");
+
+        if (string.IsNullOrWhiteSpace(client.Name))
+            throw new BusinessException("El Nombre no puede ser vacio");
+
         return _repository.Create(client);
     }
 
     public Task Delete(Client client)
     {
+        if (_repository.GetById(client.Id) == null)
+            throw new BusinessException("El cliente no existe", HttpStatusCode.NotFound);
         return _repository.Delete(client);
     }
 
-    public Task<IEnumerable<Client>> GetAll()
+    public async Task<IEnumerable<Client>> GetAll()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
-    public Task<Client> GetById(int id)
+    public async Task<Client> GetById(int id)
     {
-        return _repository.GetById(id);
+        var client = await _repository.GetById(id);
+        if (client == null)
+            throw new BusinessException("El cliente no existe", HttpStatusCode.NotFound);
+        var i = Convert.ToInt32("hola");
+        return client;
     }
 
-    public Task Update(Client client)
+    public async Task Update(Client client)
     {
-        throw new NotImplementedException();
+        if (await _repository.GetById(client.Id) == null)
+            throw new BusinessException("El cliente no existe", HttpStatusCode.NotFound);
+        await _repository.Update(client);
     }
 }

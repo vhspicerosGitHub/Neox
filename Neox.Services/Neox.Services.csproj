@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Neox.Common\Neox.Common.csproj" />
     <ProjectReference Include="..\Neox.Model\Neox.Model.csproj" />
     <ProjectReference Include="..\Neox.Repositories\Neox.Repositories.csproj" />
   </ItemGroup>
