@@ -26,19 +26,19 @@ dotnet test
 Se puede hacer via swagger localmente (https://localhost:7294/swagger/index.html) , por postman o por consola. Los comandos para probar son:
 
 ```
-# Obtiene la lista de clientes
+- Obtiene la lista de clientes
 curl -X 'GET'  'https://localhost:7294/Client'  -i
 
-# Obtiene un cliente en especifico
+- Obtiene un cliente en especifico
 curl -X 'GET'  'https://localhost:7294/Client/1' -i
 
-# Crea un cliente
+- Crea un cliente
 curl -X 'POST'  'https://localhost:7294/Client' -i  -H 'Content-Type: application/json'  -d '{ "email": "Ema@gmail.com",  "name": "Ema Saavedra"}'
 
-# Elimina un cliente
+- Elimina un cliente
 curl -X 'DELETE' -i 'https://localhost:7294/Client/4'
 
-# Actualiza
+- Actualiza
 curl -X 'PATCH' 'https://localhost:7294/Client/5' -i -H 'Content-Type: application/json'  -d '{"email": "sara@gmail.com", "name": "Sara aavedra"}'
 
 ```
