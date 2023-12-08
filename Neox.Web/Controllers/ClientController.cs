@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Neox.Common;
 using Neox.Model;
 using Neox.Services;
+using Neox.Web.ViewModel;
 
 namespace Neox.Web.Controllers;
 
@@ -58,10 +59,11 @@ public class ClientController : ControllerBase
 
     [HttpPost()]
     [ProducesResponseType(typeof(int), 200)]
-    public async Task<IActionResult> Create(Client client)
+    public async Task<IActionResult> Create(CreateOrUpdateClient ClientRequest)
     {
         try
         {
+            var client = new Client() { Name = ClientRequest.Name, Email = ClientRequest.Email };
             return Ok(await _service.Create(client));
         }
         catch (BusinessException e)
@@ -77,11 +79,11 @@ public class ClientController : ControllerBase
     }
 
     [HttpPatch("{id:int}")]
-    public async Task<IActionResult> GetById(int id, Client client)
+    public async Task<IActionResult> Update(int id, CreateOrUpdateClient ClientRequest)
     {
         try
         {
-            client.Id = id;
+            var client = new Client() { Id = id, Name = ClientRequest.Name, Email = ClientRequest.Email };
             await _service.Update(client);
             return Ok();
         }
