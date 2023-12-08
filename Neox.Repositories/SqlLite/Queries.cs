@@ -17,6 +17,6 @@
 
         public static readonly string Delete = $"UPDATE {table} SET deleted = 1 WHERE id = @id";
 
-        public static readonly string Update = $"UPDATE {table} SET name = @name, @email = @email WHERE id = @id";
+        public static readonly string Update = $"UPDATE {table} SET name = @name, email = @email WHERE id = @id";
     }
 }
