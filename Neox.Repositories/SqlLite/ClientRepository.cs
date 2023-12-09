@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Neox.Model;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using System.Runtime.CompilerServices;
 
 namespace Neox.Repositories.SqlLite
 {
