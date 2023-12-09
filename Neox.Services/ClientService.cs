@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Neox.Common;
+using Neox.Common.Utils;
 using Neox.Model;
 using Neox.Repositories;
 using System.Net;
@@ -24,9 +25,14 @@ public class ClientService : IClientService
         if (string.IsNullOrWhiteSpace(client.Name))
             throw new BusinessException("El Nombre no puede ser vacio");
 
+        if (!client.Email.IsEmailValid())
+            throw new BusinessException("El correo es Invalido");
+
         var c = await _repository.GetByEmail(client.Email);
         if (c != null)
             throw new BusinessException("Ya existe un cliente con ese correo");
+
+      
 
         return await _repository.Create(client);
     }
@@ -56,9 +62,20 @@ public class ClientService : IClientService
 
     public async Task Update(Client client)
     {
+        if (string.IsNullOrWhiteSpace(client.Email))
+            throw new BusinessException("El Email no puede ser vacio");
+
+        if (string.IsNullOrWhiteSpace(client.Name))
+            throw new BusinessException("El Nombre no puede ser vacio");
+
+        if (!client.Email.IsEmailValid())
+            throw new BusinessException("El correo es Invalido");
+
         var c = await _repository.GetById(client.Id);
         if (c == null)
             throw new BusinessException("El cliente no existe", HttpStatusCode.NotFound);
+
+       
 
         await _repository.Update(client);
     }

@@ -84,6 +84,26 @@ namespace Neox.Tests
             Assert.That(ex.Message, Is.EqualTo("Ya existe un cliente con ese correo"));
         }
 
+        [Test]
+        [TestCase("aaa")]
+        [TestCase("aaa@aaa")]
+        [TestCase("aaaaaa@.cl")]
+        [TestCase("aaaaaa@aaaa,cl")]
+        public void Create_client_with_mal_formet_email(string email)
+        {
+            var client = new Client() { Name = "name", Email = email };
+            _repository.Setup(x => x.GetByEmail(client.Email)).ReturnsAsync(client);
+
+            var ex = Assert.ThrowsAsync<BusinessException>(code: () => _service.Create(client));
+
+            _repository.Verify(x => x.GetByEmail(It.IsAny<string>()), Times.Never());
+            _repository.Verify(x => x.Create(It.IsAny<Client>()), Times.Never());
+            _repository.VerifyNoOtherCalls();
+            Assert.That(ex.Message, Is.EqualTo("El correo es Invalido"));
+        }
+
+
+
 
         [Test]
         public async Task Create_client_successful()
