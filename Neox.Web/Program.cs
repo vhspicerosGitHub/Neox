@@ -3,18 +3,15 @@ using Neox.Repositories.SqlLite;
 using Neox.Services;
 using Serilog;
 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .CreateLogger();
-
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-    builder.Host.UseSerilog();  // Add SeriLog
-                                // Add services to the container.
-    builder.Services.AddControllers();
 
+    //builder.Host.UseSerilog();  // Add SeriLog
+    builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 
+    builder.Services.AddControllers();// Add services to the container.
 
     Log.Information("Starting web application");
 
